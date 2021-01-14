@@ -13,13 +13,13 @@ const getYieldForPlant = (plant, environmentFactors = null) => {
         });     
     };
 
-    // Rounded to two decimals to avoid numbers such as "18.00000000004" (yes that happened)
+    // Rounded to 2 decimals to deal with Java's handling of floats
     return +(plantYield).toFixed(2);
 };
 
 const getYieldForCrop = (input) => {
     // Returns the yield per plant time the amount of crops.
-    // Rounded to two decimals to avoid numbers such as "18.00000000004" (yes that happened)
+    // Rounded to 2 decimals again, still to deal with Java's handling of floats
     return +(getYieldForPlant(input.crop, input.environmentFactors) * input.numCrops).toFixed(2);
 };
 
