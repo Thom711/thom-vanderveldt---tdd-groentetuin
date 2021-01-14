@@ -13,7 +13,8 @@ const getYieldForPlant = (plant, environmentFactors = null) => {
         });     
     };
 
-    return plantYield;
+    // Rounded to two decimals to avoid numbers such as "18.00000000004" (yes that happened)
+    return +(plantYield).toFixed(2);
 };
 
 const getYieldForCrop = (input) => {
@@ -32,20 +33,23 @@ const getTotalYield = ({ crops }) => {
 };
 
 const getCostForCrop = (input) => {
-    // The cost is set at €1 per plant, so no multiplication neccesary. Just return the number of plants.
+    // The cost is set at €1 per plant, so no multiplication neccesary. Just return the number of plants
+    // in the crop. If the price differs, you could do 'return input.numCrops * input.crop.price' or something.
     return input.numCrops;
 };
 
 const getRevenueForCrop = (input) => {
-    // The revenue is the total yield of a crop times the sale price per plant
+    // The revenue is the total yield of a crop (from function) times the sale price per kilo.
     return input.crop.salePrice * getYieldForCrop(input);
 };
 
 const getProfitForCrop = (input) => {
+    // Profit is the Revenue for a crop minus the cost of a crop.
     return getRevenueForCrop(input) - getCostForCrop(input);
 };
 
 const getTotalProfit = ({ crops }) => {
+    // Map over the given object. Calls getProfitForCrop per given crop, then adds them all together.
     return crops.map((crop) => {
         return getProfitForCrop(crop);
     }).reduce((prev, curr) => {
