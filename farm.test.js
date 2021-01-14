@@ -29,6 +29,11 @@ describe("getYieldForPlant", () => {
             standard: 0,
             good: 40,
           },
+          insecticide: {
+            none: -25,
+            standard: 0,
+            biological: 25,
+          },
         },
       };
 
@@ -57,12 +62,23 @@ describe("getYieldForPlant", () => {
 
     test("Get yield for plant with three enviromental factors", () => {
         const environmentFactors = {
-            sun: "medium",
-            wind: "medium",
+            sun: "high",
+            wind: "low",
             soil: "good",
           };
 
-        expect(getYieldForPlant(corn, environmentFactors)).toBe(29.4);
+        expect(getYieldForPlant(corn, environmentFactors)).toBe(63);
+    });
+
+    // Both the test and the corn have an unused environmental factor
+    test("Get yield for plant with unused enviromental factors", () => {
+        const environmentFactors = {
+            sun: "medium",
+            wind: "high",
+            temperature: "high",
+          };
+
+        expect(getYieldForPlant(corn, environmentFactors)).toBe(12);
     });
 });
 
